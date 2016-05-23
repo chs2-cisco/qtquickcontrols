@@ -272,8 +272,12 @@ QQuickMenu1::QQuickMenu1(QObject *parent)
       m_xOffset(0),
       m_yOffset(0),
       m_triggerCount(0),
-      m_proxy(false)
+      m_proxy(false),
+      m_identifier(0),
+      m_handleMouseMovedInRelease(true)
 {
+    static int identifier = 1;
+    m_identifier = identifier++;
     connect(this, SIGNAL(__textChanged()), this, SIGNAL(titleChanged()));
 
     if (QGuiApplication::platformName() != QStringLiteral("xcb")) { // QTBUG-51372
@@ -377,6 +381,16 @@ void QQuickMenu1::setSelectedIndex(int index)
     emit __selectedIndexChanged();
 }
 
+void QQuickMenu1::setIdentifier(int id)
+{
+    m_identifier = id;
+}
+
+void QQuickMenu1::setHandleMouseMovedInRelease(bool handle)
+{
+    m_handleMouseMovedInRelease = handle;
+}
+
 void QQuickMenu1::updateSelectedIndex()
 {
     if (QQuickMenuItem1 *menuItem = qobject_cast<QQuickMenuItem1*>(sender())) {
@@ -459,6 +473,8 @@ void QQuickMenu1::__popup(const QRectF &targetRect, int atItemIndex, MenuType me
         m_platformMenu->showPopup(parentWindow, globalTargetRect.toRect(), atItem ? atItem->platformItem() : 0);
     } else {
         m_popupWindow = new QQuickMenuPopupWindow1(this);
+        m_popupWindow->setHandleMouseMovedInRelease(m_handleMouseMovedInRelease);
+        m_popupWindow->setFirstTimeHover(true);
         if (visualItem())
             m_popupWindow->setParentItem(visualItem());
         else
@@ -474,6 +490,14 @@ void QQuickMenu1::__popup(const QRectF &targetRect, int atItemIndex, MenuType me
                                    targetRect.y() + targetRect.height() + m_yOffset + renderOffset.y());
         emit aboutToShow();
         m_popupWindow->show();
+    }
+}
+
+void QQuickMenu1::__setParent(QObject *newParent)
+{
+    if (parent() != newParent) {
+        setParent(newParent);
+        emit parentChanged();
     }
 }
 
@@ -584,6 +608,15 @@ void QQuickMenu1::platformMenuWindowVisibleChanged(bool visible)
         }
         if (m_platformMenu) {
             m_platformMenu->dismiss();
+        }
+    }
+}
+
+void QQuickMenu1::itemRemoved(QObject *item)
+{
+    if (QQuickMenuBase1 *menuItem = qobject_cast<QQuickMenuBase1 *>(item)) {
+        if (m_menuItems.removeOne(menuItem)) {
+            --m_itemsCount;
         }
     }
 }
@@ -765,6 +798,7 @@ void QQuickMenu1::insertItem(int index, QQuickMenuBase1 *menuItem)
 {
     if (!menuItem)
         return;
+
     int itemIndex;
     if (m_containersCount) {
         QQuickMenuItemContainer1 *container = menuItem->parent() != this ? m_containers[menuItem->parent()] : 0;
@@ -773,10 +807,12 @@ void QQuickMenu1::insertItem(int index, QQuickMenuBase1 *menuItem)
             itemIndex = itemIndexForListIndex(m_menuItems.indexOf(container)) + index;
         } else {
             itemIndex = itemIndexForListIndex(index);
+            connect(menuItem, SIGNAL(destroyed(QObject*)), this, SLOT(itemRemoved(QObject*)));
             m_menuItems.insert(itemIndex, menuItem);
         }
     } else {
         itemIndex = index;
+        connect(menuItem, SIGNAL(destroyed(QObject*)), this, SLOT(itemRemoved(QObject*)));
         m_menuItems.insert(index, menuItem);
     }
 
@@ -791,10 +827,12 @@ void QQuickMenu1::removeItem(QQuickMenuBase1 *menuItem)
     menuItem->setParentMenu(0);
 
     QQuickMenuItemContainer1 *container = menuItem->parent() != this ? m_containers[menuItem->parent()] : 0;
-    if (container)
+    if (container) {
         container->removeItem(menuItem);
-    else
+    } else {
+        disconnect(menuItem, SIGNAL(destroyed(QObject*)), this, SLOT(itemRemoved(QObject*)));
         m_menuItems.removeOne(menuItem);
+    }
 
     --m_itemsCount;
     emit itemsChanged();
