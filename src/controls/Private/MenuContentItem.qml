@@ -72,7 +72,7 @@ Loader {
         readonly property Component menuItemPanel: style ? style.menuItemPanel : null
 
         function canBeHovered(index) {
-            var item = content.menuItemAt(index)
+            var item = content.getMenuItemAt(index)
             if (item && item.visible && item.styleData.type !== MenuItemType.Separator && item.styleData.enabled) {
                 __menu.__currentIndex = index
                 return true
@@ -83,20 +83,39 @@ Loader {
         function triggerCurrent() {
             var item = content.menuItemAt(__menu.__currentIndex)
             if (item)
-                triggerAndDismiss(item)
+                content.triggered(item)
         }
 
         function triggerAndDismiss(item) {
-            if (!item)
-                return;
-            if (item.styleData.type === MenuItemType.Separator)
-                __menu.__dismissAndDestroy()
-            else if (item.styleData.type === MenuItemType.Item)
-                item.__menuItem.trigger()
+            if (item && item.styleData.type !== MenuItemType.Separator) {
+                __menu.__dismissMenu()
+                if (item.styleData.type !== MenuItemType.Menu)
+                    item.__menuItem.trigger()
+                __menu.destroyAllMenuPopups()
+            }
         }
     }
 
     focus: true
+
+    property int openMenuTimerStartedIndex: -1
+
+    function selectNextHoverableItem() {
+        if (__menu.__currentIndex < 0)
+            __menu.__currentIndex = -1
+
+        for (var i = __menu.__currentIndex + 1;
+             i < __menu.items.length && !d.canBeHovered(i); i++)
+            ;
+    }
+
+    function stopOpenMenuTimer() {
+        var item = content.menuItemAt(openMenuTimerStartedIndex)
+        if (item) {
+            item.__closeSubMenu()
+        }
+        content.stopOpenMenuTimer()
+    }
 
     Keys.onPressed: {
         var item = null
@@ -105,25 +124,20 @@ Loader {
             if (item.styleData.type === MenuItemType.Menu) {
                 __menu.__currentIndex = item.__menuItemIndex
                 item.__showSubMenu(true)
-                item.__menuItem.__currentIndex = 0
             } else {
                 d.triggerAndDismiss(item)
             }
             event.accepted = true
         } else {
-            event.accepted = false
+            // Do not propagate to parent menu if it was a key that could have been a mnemonic
+            event.accepted = event.key >= Qt.Key_A && event.key <= Qt.Key_Z || event.key >= Qt.Key_0 && event.key <= Qt.Key_9;
         }
     }
 
-    Keys.onEscapePressed: __menu.__dismissAndDestroy()
+    Keys.onEscapePressed: __menu.__dismissMenu()
 
     Keys.onDownPressed: {
-        if (__menu.__currentIndex < 0)
-            __menu.__currentIndex = -1
-
-        for (var i = __menu.__currentIndex + 1;
-             i < __menu.items.length && !d.canBeHovered(i); i++)
-            ;
+        selectNextHoverableItem()
         event.accepted = true
     }
 
@@ -135,8 +149,10 @@ Loader {
     }
 
     Keys.onLeftPressed: {
-        if ((event.accepted = __menu.__parentMenu.hasOwnProperty("title")))
-            __menu.__closeAndDestroy()
+        if ((event.accepted = __menu.__parentMenu.hasOwnProperty("title"))) {
+            __menu.hideMenu()
+            __menu.destroyMenuPopup()
+        }
     }
 
     Keys.onRightPressed: {
@@ -144,7 +160,6 @@ Loader {
         if (item && item.styleData.type === MenuItemType.Menu
                  && !item.__menuItem.__popupVisible) {
             item.__showSubMenu(true)
-            item.__menuItem.__currentIndex = 0
             event.accepted = true
         } else {
             event.accepted = false
@@ -229,8 +244,10 @@ Loader {
                         if (__menuItem.__usingDefaultStyle)
                             __menuItem.style = __menu.style
                         __menuItem.__popup(Qt.rect(menuFrameLoader.width - (d.style.submenuOverlap + d.style.padding.right), -d.style.padding.top, 0, 0), -1)
+                        __menuItem.selectNextHoverableItem()
                     }
                 } else {
+                    menuFrameLoader.openMenuTimerStartedIndex = __menuItemIndex
                     openMenuTimer.start()
                 }
             }
@@ -238,13 +255,16 @@ Loader {
             Timer {
                 id: openMenuTimer
                 interval: d.style.submenuPopupDelay
-                onTriggered: menuItemLoader.__showSubMenu(true)
+                onTriggered: {
+                    menuFrameLoader.openMenuTimerStartedIndex = -1
+                    menuItemLoader.__showSubMenu(true)
+                }
             }
 
             function __closeSubMenu() {
-                if (openMenuTimer.running)
+                if (openMenuTimer.running) {
                     openMenuTimer.stop()
-                else if (__menuItem.__popupVisible)
+                } else if (__menuItem.__popupVisible)
                     closeMenuTimer.start()
             }
 
@@ -252,8 +272,10 @@ Loader {
                 id: closeMenuTimer
                 interval: 1
                 onTriggered: {
-                    if (__menu.__currentIndex !== __menuItemIndex)
-                        __menuItem.__closeAndDestroy()
+                    if (__menu.__currentIndex !== __menuItemIndex) {
+                        __menuItem.hideMenu()
+                        __menuItem.destroyMenuPopup()
+                    }
                 }
             }
 
@@ -280,10 +302,9 @@ Loader {
                 target: __menuItem
                 ignoreUnknownSignals: true
                 onTriggered: {
-                    if (__menu.__parentContentItem)
-                        __menu.__parentContentItem.item.__altPressed = false
+                    unsetAltPressed()
                     __menu.__dismissMenu()
-                    __menu.__destroyAllMenuPopups()
+                    __menu.destroyAllMenuPopups()
                 }
             }
 
@@ -295,6 +316,15 @@ Loader {
                     menuItemLoader.__showSubMenu(true /*immediately*/)
                 }
             }
+        }
+    }
+
+    function unsetAltPressed() {
+        if (__menu.__parentContentItem) {
+            if (typeof __menu.__parentContentItem.item.__altPressed !== "undefined")
+                __menu.__parentContentItem.item.__altPressed = false
+            else
+                __menu.__parentContentItem.item.unsetAltPressed()
         }
     }
 }
