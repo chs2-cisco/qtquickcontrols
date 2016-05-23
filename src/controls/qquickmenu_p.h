@@ -67,6 +67,7 @@ class QQuickMenu1 : public QQuickMenuText1
 
     Q_PROPERTY(int __selectedIndex READ selectedIndex WRITE setSelectedIndex NOTIFY __selectedIndexChanged)
     Q_PROPERTY(bool __popupVisible READ popupVisible NOTIFY popupVisibleChanged)
+    Q_PROPERTY(bool __handleMouseMovedInRelease READ handleMouseMovedInRelease WRITE setHandleMouseMovedInRelease)
     Q_PROPERTY(QQuickItem *__contentItem READ menuContentItem WRITE setMenuContentItem NOTIFY menuContentItemChanged)
     Q_PROPERTY(int __minimumWidth READ minimumWidth WRITE setMinimumWidth NOTIFY minimumWidthChanged)
     Q_PROPERTY(QFont __font READ font WRITE setFont)
@@ -75,6 +76,7 @@ class QQuickMenu1 : public QQuickMenuText1
     Q_PROPERTY(QQuickAction1 *__action READ action CONSTANT)
     Q_PROPERTY(QRect __popupGeometry READ popupGeometry NOTIFY __popupGeometryChanged)
     Q_PROPERTY(bool __isProxy READ isProxy WRITE setProxy NOTIFY __proxyChanged)
+    Q_PROPERTY(int identifier READ identifier WRITE setIdentifier)
     Q_ENUMS(MenuType)
 
 public:
@@ -92,6 +94,7 @@ public:
     Q_INVOKABLE void clear();
 
     Q_INVOKABLE void __popup(const QRectF &targetRect, int atItemIndex = -1, MenuType menuType = DefaultMenu);
+    Q_INVOKABLE void __setParent(QObject *);
 
 public Q_SLOTS:
     void __dismissMenu();
@@ -141,8 +144,14 @@ public:
     qreal yOffset() const { return m_yOffset; }
     void setYOffset(qreal);
 
+    int identifier() const { return m_identifier; }
+    void setIdentifier(int id);
+
     QQuickItem *menuContentItem() const { return m_menuContentItem; }
     bool popupVisible() const { return m_popupVisible; }
+
+    bool handleMouseMovedInRelease() const { return m_handleMouseMovedInRelease; }
+    void setHandleMouseMovedInRelease(bool);
 
     bool isNative() { return m_platformMenu != 0; }
 
@@ -153,8 +162,8 @@ public:
 
     void prepareItemTrigger(QQuickMenuItem1 *);
     void concludeItemTrigger(QQuickMenuItem1 *);
-    void destroyMenuPopup();
-    void destroyAllMenuPopups();
+    Q_INVOKABLE void destroyMenuPopup();
+    Q_INVOKABLE void destroyAllMenuPopups();
 
     QQuickMenuBar1 *menuBar();
 
@@ -169,6 +178,7 @@ protected Q_SLOTS:
     void updateText();
     void windowVisibleChanged(bool);
     void platformMenuWindowVisibleChanged(bool);
+    void itemRemoved(QObject *);
 
 private:
     QQuickWindow *findParentWindow();
@@ -212,6 +222,8 @@ private:
     int m_triggerCount;
     bool m_proxy;
     QMetaObject::Connection m_windowConnection;
+    int m_identifier;
+    bool m_handleMouseMovedInRelease;
 };
 
 QT_END_NAMESPACE
