@@ -62,6 +62,8 @@ public:
     QQuickItem *parentItem() const { return m_parentItem; }
     virtual void setParentItem(QQuickItem *);
 
+    void setHandleMouseMovedInRelease(bool);
+
 public Q_SLOTS:
     virtual void show();
     void dismissPopup();
@@ -91,6 +93,7 @@ private:
     bool m_mouseMoved;
     bool m_needsActivatedEvent;
     bool m_dismissed;
+    bool m_handleMouseMovedInRelease;
     bool m_pressed;
 };
 

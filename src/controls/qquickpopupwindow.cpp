@@ -120,6 +120,11 @@ void QQuickPopupWindow1::setParentItem(QQuickItem *item)
         setTransientParent(m_parentItem->window());
 }
 
+void QQuickPopupWindow1::setHandleMouseMovedInRelease(bool handle)
+{
+    m_handleMouseMovedInRelease = handle;
+}
+
 void QQuickPopupWindow1::setPopupContentItem(QQuickItem *contentItem)
 {
     if (!contentItem)
