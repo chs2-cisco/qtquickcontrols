@@ -103,6 +103,7 @@ void QQuickMenuBase1::setParentMenu(QQuickMenu1 *parentMenu)
         m_parentMenu->platformMenu()->removeMenuItem(m_platformItem);
 
     m_parentMenu = parentMenu;
+    emit parentChanged();
 }
 
 QQuickMenuItemContainer1 *QQuickMenuBase1::container() const
