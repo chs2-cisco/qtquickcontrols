@@ -315,6 +315,15 @@ Control {
     property bool selectByMouse: true
 
     /*!
+        \qmlproperty bool ComboBox::ignoreWheel
+
+        This property allows user to disable the wheel from changing the value of the ComboBox.
+
+        The default value is \c false.
+    */
+    property bool ignoreWheel: false
+
+    /*!
         \qmlproperty bool ComboBox::inputMethodComposing
         \since QtQuick.Controls 1.3
 
@@ -421,10 +430,14 @@ Control {
             overridePressed = false
         }
         onWheel: {
-            if (wheel.angleDelta.y > 0) {
-                __selectPrevItem();
-            } else if (wheel.angleDelta.y < 0){
-                __selectNextItem();
+            if (comboBox.ignoreWheel) {
+                wheel.accepted = false
+            } else {
+                if (wheel.angleDelta.y > 0) {
+                    __selectPrevItem();
+                } else if (wheel.angleDelta.y < 0){
+                    __selectNextItem();
+                }
             }
         }
     }
