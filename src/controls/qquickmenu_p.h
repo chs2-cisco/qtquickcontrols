@@ -82,6 +82,7 @@ class QQuickMenu1 : public QQuickMenuText1
 public:
     // MenuType must stay in sync with QPlatformMenu::MenuType
     enum MenuType { DefaultMenu = 0, EditMenu };
+    Q_ENUM(MenuType)
 
     Q_INVOKABLE void popup();
     Q_INVOKABLE QQuickMenuItem1 *addItem(const QString &);
@@ -179,6 +180,8 @@ protected Q_SLOTS:
     void windowVisibleChanged(bool);
     void platformMenuWindowVisibleChanged(bool);
     void itemRemoved(QObject *);
+
+    void doPopup(const QRectF &targetRect, int atItemIndex, MenuType menuType);
 
 private:
     QQuickWindow *findParentWindow();
