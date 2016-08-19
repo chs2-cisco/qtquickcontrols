@@ -156,6 +156,9 @@ MenuPrivate {
             style = Qt.binding(function() { return Settings.styleComponent(Settings.style, "MenuStyle.qml", root) })
         }
     }
+    Component.onDestruction: {
+        root.__dismissMenu()
+    }
 
     /*! \internal */
     property bool __usingDefaultStyle: false
