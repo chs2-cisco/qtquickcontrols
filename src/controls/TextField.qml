@@ -348,7 +348,6 @@ Control {
         work, however.
     */
     property alias readOnly: textInput.readOnly
-    Accessible.readOnly: readOnly
 
     /*!
         \qmlproperty bool TextField::selectByMouse
