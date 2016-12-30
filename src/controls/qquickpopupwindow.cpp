@@ -146,6 +146,7 @@ void QQuickPopupWindow1::dismissPopup()
 {
     m_dismissed = true;
     emit popupDismissed();
+    setKeyboardGrabEnabled(false);
     hide();
 }
 
