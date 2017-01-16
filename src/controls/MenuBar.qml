@@ -224,25 +224,35 @@ MenuBarPrivate {
 
         focus: true
 
+        property bool otherKeyPressed: false
+
         Keys.onPressed: {
             var containsModifiers = (event.modifiers & Qt.ShiftModifier) || (event.modifiers & Qt.ControlModifier)
             if (event.key === Qt.Key_Alt && !Boolean(containsModifiers)) {
-                if (!d.altPressed)
+                if (!d.altPressed) {
+                    d.menuIndex = -1
+                    d.openedMenuIndex = -1
                     d.altPressed = true
-                else
+                    otherKeyPressed = false
+                } else {
                     d.dismissActiveFocus(event, true)
+                }
             }
         }
         Keys.onReleased: {
             var containsModifiers = (event.modifiers & Qt.ShiftModifier) || (event.modifiers & Qt.ControlModifier)
             var action = null
             if (event.key === Qt.Key_Alt && !Boolean(containsModifiers)) {
-                if (d.altPressed && d.menuIndex === -1 && d.openedMenuIndex === -1)
-                {
+                if (d.altPressed && d.menuIndex === -1 && d.openedMenuIndex === -1) {
+                  if (!otherKeyPressed) {
                     d.menuIndex = 0
                     forceActiveFocus(Qt.MenuBarFocusReason)
+                  } else {
+                    d.altPressed = false
+                  }
                 }
             } else if (d.altPressed && (action = d.mnemonicsMap[event.text.toUpperCase()])) {
+                otherKeyPressed = false
                 d.preselectMenuItem = true
                 action.trigger()
                 event.accepted = true
@@ -250,6 +260,8 @@ MenuBarPrivate {
                     if ((action = d.extensionMnemonicsMap[event.text.toUpperCase()]))
                         d.delayedTriggerTimer.action = action
                 }
+            } else {
+                otherKeyPressed = true
             }
 
             if (d.openedMenuIndex === -1) {
