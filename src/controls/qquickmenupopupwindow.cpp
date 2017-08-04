@@ -111,9 +111,11 @@ void QQuickMenuPopupWindow1::setGeometry(int posx, int posy, int w, int h)
         pw = parentItem()->window();
     if (!pw)
         pw = this;
-    QRect g = pw->screen()->geometry();
+    QRect g;
+    if (pw->screen())
+        g = pw->screen()->geometry();
 
-    if (posx + w > g.right()) {
+    if (!g.isNull() && posx + w > g.right()) {
         if (qobject_cast<QQuickMenuPopupWindow1 *>(transientParent())) {
             // reposition submenu window on the parent menu's left side
             int submenuOverlap = pw->x() + pw->width() - posx;
