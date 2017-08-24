@@ -46,6 +46,7 @@ Loader {
     id: menuFrameLoader
 
     property var __menu
+    signal menuItemSelected(var item)
 
     Accessible.role: Accessible.PopupMenu
 
@@ -195,6 +196,12 @@ Loader {
         id: menuItemComponent
         Loader {
             id: menuItemLoader
+
+            property bool selected: opts.selected && opts.underlineMnemonic
+            onSelectedChanged: {
+               if (selected && menuItemLoader)
+                  menuFrameLoader.menuItemSelected( menuItemLoader )
+            }
 
             function getAccessibleString()
             {
