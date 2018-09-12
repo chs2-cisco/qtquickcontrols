@@ -217,12 +217,6 @@ MenuBarPrivate {
             }
         }
         property alias __altPressed: d.altPressed // Needed for the menu contents
-        signal menuBarFocusLost(var reason)
-
-        onMenuBarFocusLost:{
-            if (reason != Qt.MouseFocusReason)
-                d.dismissActiveFocus(null, true)
-        }
 
         focus: true
 
