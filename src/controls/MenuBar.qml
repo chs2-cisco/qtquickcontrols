@@ -404,6 +404,38 @@ MenuBarPrivate {
                 id: itemsRepeater
                 model: root.menus
 
+                function menuFitsInBar(menuItemIndex) {
+                    var sum = 0
+                    var fits = true
+                    for (var i = 0; i < menuItemIndex && fits; ++i) {
+                        if (row.children[i] !== itemsRepeater) {
+                            if (!row.children[i].menuFitsInBar) {
+                                fits = false
+                            } else if (row.children[i].__menuItem.visible) {
+                                sum += row.children[i].width + row.spacing
+                                if (sum > row.width - row.extButtonWidth) {
+                                    fits = false
+                                }
+                            }
+                        }
+                    }
+                    return fits && sum + row.children[menuItemIndex].width <= row.width - (row.lastItemIndex == menuItemIndex ? 0 : row.extButtonWidth + row.spacing)
+                }
+
+                function layoutMirroringEnabled() {
+                    return row.LayoutMirroring.enabled
+                }
+
+                function updateLastItemIndex() {
+                    var result = -1
+                    for (var i = 0; i < row.children.length; ++i) {
+                        if (row.children[i] !== itemsRepeater && row.children[i].__menuItem.visible) {
+                            result = i
+                        }
+                    }
+                    row.lastItemIndex = result
+                }
+
                 Loader {
                     id: menuItemLoader
 
@@ -446,23 +478,7 @@ MenuBarPrivate {
                     readonly property int __menuItemIndex: index
                     sourceComponent: d.style ? d.style.itemDelegate : null
                     property bool lastMenu: false
-                    property bool menuFitsInBar: {
-                        var sum = 0
-                        var fits = true
-                        for (var i = 0; i < __menuItemIndex && fits; ++i) {
-                            if (row.children[i] !== itemsRepeater) {
-                                if (!row.children[i].menuFitsInBar) {
-                                    fits = false
-                                } else if (row.children[i].__menuItem.visible) {
-                                    sum += row.children[i].width + row.spacing
-                                    if (sum > row.width - row.extButtonWidth) {
-                                        fits = false
-                                    }
-                                }
-                            }
-                        }
-                        return fits && sum + row.children[__menuItemIndex].width <= row.width - (row.lastItemIndex == __menuItemIndex ? 0 : row.extButtonWidth + row.spacing)
-                    }
+                    property bool menuFitsInBar: itemsRepeater.menuFitsInBar(__menuItemIndex)
                     onMenuFitsInBarChanged: {
                         if (menuFitsInBar)
                             __menuItem.itemsChanged.disconnect(menuBarLoader.populateExtensionMenu)
@@ -500,7 +516,7 @@ MenuBarPrivate {
                             if (d.openedMenuIndex == index) { // Check that the selected menu did not change while the timer was running
                                 if (item.__usingDefaultStyle)
                                     item.style = d.style.menuStyle
-                                item.__popup(Qt.rect(row.LayoutMirroring.enabled ? menuItemLoader.width : 0,
+                                item.__popup(Qt.rect(itemsRepeater.layoutMirroringEnabled() ? menuItemLoader.width : 0,
                                                    menuBarLoader.height - d.heightPadding, 0, 0), 0)
                                 if (d.preselectMenuItem)
                                     item.selectNextHoverableItem()
@@ -538,15 +554,7 @@ MenuBarPrivate {
                             menuBarLoader.populateExtensionMenu()
                             d.setupMnemonics(__menuItem)
                         }
-                        onVisibleChanged: {
-                            var result = -1
-                            for (var i = 0; i < row.children.length; ++i) {
-                                if (row.children[i] !== itemsRepeater && row.children[i].__menuItem.visible) {
-                                    result = i
-                                }
-                            }
-                            row.lastItemIndex = result
-                        }
+                        onVisibleChanged: itemsRepeater.updateLastItemIndex()
                     }
 
                     Connections {
