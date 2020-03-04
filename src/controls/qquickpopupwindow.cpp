@@ -37,6 +37,17 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13942: Removed keyboard graber before window hiding
+ *
+ * Dec 30, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ *
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+
 #include "qquickpopupwindow_p.h"
 
 #include <qguiapplication.h>

@@ -37,6 +37,27 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-14668: Fix resizing of items in SplitView
+ *
+ * SplitView was unnecessarily resizing it's items when moving the resize
+ * handle even though minimum or maximum width of child item was reached
+ * and resizing wasn't possible. Fixed by calculating the new handle pos
+ * and child item sizes within moveHandle() function so that minimum and
+ * maximum sizes are taken into account.
+ *
+ * Mar 7, 2017, Juho Frits (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-14657: Fixed splitview handle width
+ *
+ * Do not increase the width of splitview handle mousearea
+ * as it might overlap on other components positioned around
+ * splitview.
+ *
+ * Feb 22, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0

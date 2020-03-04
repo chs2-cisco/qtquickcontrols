@@ -37,6 +37,12 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ *
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+
 #ifndef QQUICKPOPUPWINDOW_H
 #define QQUICKPOPUPWINDOW_H
 

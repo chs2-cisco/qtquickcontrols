@@ -37,6 +37,18 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ *
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-10728: added patch which moves properties to parent class
+ * Now QML Menu has checked property and it shows the check mark.
+ *
+ * Feb 25, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+
 #ifndef QQUICKMENUITEM_P_H
 #define QQUICKMENUITEM_P_H
 

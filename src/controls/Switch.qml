@@ -37,6 +37,15 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13649: Made accessible switch to be checkable.
+ *
+ * Accessibility can't detect check state change for Switch.
+ * Fixed by updating accessible checked state when swtich check-state is changed.
+ *
+ * Dec 5, 2016, Jamshed Siddiqi (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0

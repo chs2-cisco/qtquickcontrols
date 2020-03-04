@@ -37,6 +37,29 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-11554: OSX open menu through eventloop
+ *
+ * This way it doesn't crash when the window from where the menu was
+ * opened gets closed/destroyed before the menu is closed.
+ * Also dismiss the menu when the QML Menu is destroyed.
+ *
+ * Aug 19, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ *
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-10593: added a patch that fixes the submenu part of the Qt bug
+ *
+ * The top level menu bug is still present in the Qt but we can go
+ * around it by moving the window 1 pixel back and forth.
+ *
+ * * Feb 19, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+
 #include "qquickmenu_p.h"
 #include "qquickmenubar_p.h"
 #include "qquickmenuitemcontainer_p.h"

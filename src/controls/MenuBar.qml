@@ -37,6 +37,69 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-21557: Fix menubar.
+ *
+ * For some reason row properties do not work inside loader.
+ * Move logic to upper level.
+ *
+ * Apr 15, 2019, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-19449: Remove menubar focus hack
+ *
+ * Fix menu stealing focus from chat input.
+ * Was added previously to prevent focus from staying
+ * on menu bar even after the window loses its focus.
+ * Removing this fix as the original issue does not
+ * seem to happen even without the fix.
+ *
+ * Sep 12, 2018, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-13611: Signal menu item selected
+ * Aug 24, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-14215: Menubar Alt support
+ * Added check for other key pressed during Alt key
+ *
+ * Jan 16, 2017, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-13944 Make also shortcut, mnemonic and submenu accessible
+ * Dec 13, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-13611 Add accessible string to extension menu
+ * Dec 13, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-13632 Open the menu on key released.
+ *
+ * Also fixed menu focus issues. Menu was still being focused
+ * after being closed causing the accessibility to read menu items
+ * when window is focused.
+ *
+ * Dec 5, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-12995: ForceActiveFocus is used if no control modifier is set
+ * Oct 10, 2016, Jamshed Siddiqi (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11413 Ignore menu activation when using modifiers
+ * Sep 14, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11413 Do not activate menu when pressed Alt+Shift
+ * Sep 13, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1

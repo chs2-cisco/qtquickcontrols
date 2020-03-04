@@ -37,6 +37,13 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-10807 Always use NativeText to make shortcuts
+ * work in different localizations
+ *
+ * Mar 10, 2016, Jani TYkka (Cisco Systems, Inc.)
+*/
+
 #include "qquickaction_p.h"
 #include "qquickexclusivegroup_p.h"
 #include "qquickmenuitem_p.h"

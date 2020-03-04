@@ -37,6 +37,13 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-10182: Don't hide the scrollbar to make
+ * it appear when hovering over it.
+ *
+ * Dec 11, 2015, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0

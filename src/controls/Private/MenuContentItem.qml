@@ -37,6 +37,43 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13611: Fixed condition check
+ * Send selected signal also when alt is not pressed
+ *
+ * Sep 15, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-13611: Signal menu item selected
+ * Aug 24, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * Revert "BTUC-11377: Fixed a binding loop issue with sub-menus"
+ * Dec 22, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-13944 Make also shortcut, mnemonic and submenu accessible
+ * Dec 13, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11900: call unselectAlt recursive just before destruction
+ * of menus, to avoid nulls unloaded items of qml loaders
+ *
+ * Jun 30, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-10748: Alt + mnemonic fixes
+ * Mar 10, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-10391: Added patch for QTBUG-50531
+ * Jan 20, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1

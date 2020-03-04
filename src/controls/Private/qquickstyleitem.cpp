@@ -37,6 +37,13 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-10728: added patch which moves properties to parent class
+ * Now QML Menu has checked property and it shows the check mark.
+ *
+ * Feb 25, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+
 #include "qquickstyleitem_p.h"
 
 #include <qstringbuilder.h>

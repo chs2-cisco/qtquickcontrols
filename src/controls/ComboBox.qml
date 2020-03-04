@@ -37,6 +37,27 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13611: Accessibility support for Text menu
+ *
+ * Signal menu item selected for text input context menu
+ * Signal to parent menu if it exists
+ *
+ * Sep 18, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11226: added ignoreWheel to ComboBox
+ *
+ * This was done to disable changing the value of the ComboBox
+ * by scrolling on top of it.
+ *
+ * May 24, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-10342: Give access to the input control of an editable combo box
+ * Feb 8, 2016, Ilja Mäki (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0

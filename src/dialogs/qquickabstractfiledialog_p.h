@@ -37,6 +37,12 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-8726: QML FileDialog fix
+ *
+ * Jun 23, 2015, Juho Frits (Cisco Systems, Inc.)
+*/
+
 #ifndef QQUICKABSTRACTFILEDIALOG_P_H
 #define QQUICKABSTRACTFILEDIALOG_P_H
 

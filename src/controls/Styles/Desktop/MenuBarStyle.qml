@@ -37,6 +37,17 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13611 Revert "BTUC-11514 Verify BTUC-10848"
+ *
+ * Nov 23, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11514 Verify BTUC-10848
+ *
+ * May 24, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0

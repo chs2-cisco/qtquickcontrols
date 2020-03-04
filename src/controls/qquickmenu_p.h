@@ -37,6 +37,21 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-11554: OSX open menu through eventloop
+ *
+ * This way it doesn't crash when the window from where the menu was
+ * opened gets closed/destroyed before the menu is closed.
+ * Also dismiss the menu when the QML Menu is destroyed.
+ *
+ * Aug 19, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ *
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+
 #ifndef QQUICKMENU_P_H
 #define QQUICKMENU_P_H
 

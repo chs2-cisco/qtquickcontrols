@@ -37,6 +37,17 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13673: Make ScrollBar not accessible on Mac
+ *
+ * On macOS a vertical ScrollBar is read as "horizontal scroll bar" by
+ * VoiceOver, which is confusing. There is no need to access scroll bars
+ * by accessibility means so they are now ignored by accessibility
+ * framework on macOS.
+ *
+ * Dec 5, 2016, Juho Frits (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0

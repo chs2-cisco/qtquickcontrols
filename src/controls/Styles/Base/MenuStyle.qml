@@ -37,6 +37,12 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13992 Focus menu items when selected
+ *
+ * Dec 20, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Window 2.1
 import QtQuick.Controls 1.2

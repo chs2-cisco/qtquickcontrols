@@ -37,6 +37,15 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-15930: Do not access NULL QScreen
+ *
+ * Fix a random crash that happens sometimes when plugging/unplugging
+ * monitors and a window is exposed with its screen as NULL.
+ *
+ * Aug 4, 2017, Juho Frits (Cisco Systems, Inc.)
+*/
+
 #include "qquickmenupopupwindow_p.h"
 
 #include <qguiapplication.h>

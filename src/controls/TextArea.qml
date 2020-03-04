@@ -37,6 +37,15 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-7401: Fix page up/down in TextArea
+ *
+ * Page up/down now also moves the cursor and view is scrolled properly by
+ * one page at a time.
+ *
+ * Sep 28, 2017, Juho Frits (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.2

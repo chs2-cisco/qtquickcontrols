@@ -37,6 +37,38 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13611: Accessibility support for Text menu
+ *
+ * Signal menu item selected for text input context menu
+ * Signal to parent menu if it exists
+ *
+ * Sep 18, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-13611: Signal menu item selected
+ * Aug 24, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11554: OSX open menu through eventloop
+ *
+ * This way it doesn't crash when the window from where the menu was
+ * opened gets closed/destroyed before the menu is closed.
+ * Also dismiss the menu when the QML Menu is destroyed.
+ *
+ * Aug 19, 2016, Kimmo Karvinen (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11514 BTUC-11506 parent content item property
+ * re-implemented properly, according to changes of ext. menu
+ *
+ * Jun 7, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.1

@@ -37,6 +37,15 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13611: Accessibility support for Text menu
+ *
+ * Signal menu item selected for text input context menu
+ * Signal to parent menu if it exists
+ *
+ * Sep 18, 2017, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0

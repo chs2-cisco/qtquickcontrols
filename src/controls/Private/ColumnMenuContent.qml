@@ -37,6 +37,19 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-11420 Fix binding loop by updating height with connections.
+ * Dec 22, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * Revert "BTUC-11377: Fixed a binding loop issue with sub-menus"
+ * Dec 22, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+/*
+ * BTUC-11506 Verify MenuBar issues with Qt 5.6
+ * May 23, 2016, Denis Rusakov (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0

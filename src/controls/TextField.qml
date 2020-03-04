@@ -37,6 +37,12 @@
 **
 ****************************************************************************/
 
+/*
+ * BTUC-13672 Remove property irrelevant to StaticText
+ *
+ * Nov 28, 2016, Aditya Kolachana (Cisco Systems, Inc.)
+*/
+
 import QtQuick 2.6
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Private 1.0
